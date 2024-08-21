@@ -107,6 +107,9 @@
         </div>
     </div>
 
+    <!-- Include Plotly.js for graphing -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
     <script>
         const display = document.getElementById('display');
         const buttons = Array.from(document.getElementsByClassName('button'));
@@ -127,6 +130,13 @@
                     plotGraph(display.innerText);
                 } else if (buttonText === 'Mode' || buttonText === '2nd' || buttonText === 'Y=') {
                     // Add functionalities for these specific keys
+                    alert("Functionality for '" + buttonText + "' is not implemented yet.");
+                } else if (buttonText === 'x²') {
+                    display.innerText += '**2';
+                } else if (buttonText === '√') {
+                    display.innerText += 'Math.sqrt(';
+                } else if (buttonText === '^') {
+                    display.innerText += '**';
                 } else {
                     display.innerText += buttonText;
                 }
@@ -134,8 +144,31 @@
         });
 
         function plotGraph(equation) {
-            // Use a graphing library like Plotly.js or Chart.js to plot the graph
-            alert("Graphing: " + equation);
+            let xValues = [];
+            let yValues = [];
+
+            for (let x = -10; x <= 10; x += 0.1) {
+                xValues.push(x);
+                yValues.push(eval(equation.replace(/x/g, x)));
+            }
+
+            let trace = {
+                x: xValues,
+                y: yValues,
+                type: 'scatter'
+            };
+
+            let layout = {
+                title: 'Graph',
+                xaxis: {
+                    title: 'X-axis'
+                },
+                yaxis: {
+                    title: 'Y-axis'
+                }
+            };
+
+            Plotly.newPlot('display', [trace], layout);
         }
     </script>
 </body>
