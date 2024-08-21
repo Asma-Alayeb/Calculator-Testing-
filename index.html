@@ -3,59 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TI-84 Web Calculator</title>
+    <title>TI-84 Graphing Calculator Emulator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #222;
+            color: #fff;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
         .calculator {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #333;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             width: 400px;
             padding: 20px;
         }
         .display {
-            background-color: #222;
-            color: #fff;
-            font-size: 24px;
-            padding: 10px;
-            border-radius: 5px;
+            background-color: #444;
+            border-radius: 10px;
             margin-bottom: 20px;
+            padding: 15px;
+            font-size: 24px;
+            height: 50px;
+            color: #0f0;
             text-align: right;
-            overflow-x: auto;
         }
         .buttons {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
         }
         .button {
             padding: 20px;
             font-size: 18px;
-            background-color: #eee;
+            background-color: #666;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.2s ease;
         }
         .button:hover {
-            background-color: #ddd;
+            background-color: #777;
         }
-        .button.operation {
-            background-color: #f9a825;
-            color: #fff;
+        .button.function {
+            background-color: #888;
         }
-        .button.operation:hover {
-            background-color: #fbc02d;
+        .button.function:hover {
+            background-color: #999;
+        }
+        .button.graph {
+            background-color: #09f;
+        }
+        .button.graph:hover {
+            background-color: #0af;
+        }
+        .button.large {
+            grid-column: span 2;
         }
     </style>
 </head>
@@ -63,54 +71,72 @@
     <div class="calculator">
         <div class="display" id="display"></div>
         <div class="buttons">
-            <!-- Row 1 -->
+            <!-- Row 1: Graphing and Basic Functions -->
+            <button class="button graph">Y=</button>
+            <button class="button function">2nd</button>
+            <button class="button function">Mode</button>
+            <button class="button function">Del</button>
+            <button class="button function">Graph</button>
+
+            <!-- Row 2: Numbers and Basic Operations -->
             <button class="button">7</button>
             <button class="button">8</button>
             <button class="button">9</button>
-            <button class="button operation">/</button>
+            <button class="button function">/</button>
+            <button class="button function">x²</button>
 
-            <!-- Row 2 -->
+            <!-- Row 3 -->
             <button class="button">4</button>
             <button class="button">5</button>
             <button class="button">6</button>
-            <button class="button operation">*</button>
+            <button class="button function">*</button>
+            <button class="button function">√</button>
 
-            <!-- Row 3 -->
+            <!-- Row 4 -->
             <button class="button">1</button>
             <button class="button">2</button>
             <button class="button">3</button>
-            <button class="button operation">-</button>
+            <button class="button function">-</button>
+            <button class="button function">^</button>
 
-            <!-- Row 4 -->
-            <button class="button">0</button>
+            <!-- Row 5 -->
+            <button class="button large">0</button>
             <button class="button">.</button>
-            <button class="button operation">=</button>
-            <button class="button operation">+</button>
+            <button class="button function">+</button>
+            <button class="button function">Enter</button>
         </div>
     </div>
 
     <script>
-        let display = document.getElementById('display');
-        let buttons = Array.from(document.getElementsByClassName('button'));
+        const display = document.getElementById('display');
+        const buttons = Array.from(document.getElementsByClassName('button'));
 
-        buttons.map(button => {
+        buttons.forEach(button => {
             button.addEventListener('click', (e) => {
-                switch(e.target.innerText) {
-                    case '=':
-                        try {
-                            display.innerText = eval(display.innerText);
-                        } catch {
-                            display.innerText = "Error";
-                        }
-                        break;
-                    case 'C':
-                        display.innerText = '';
-                        break;
-                    default:
-                        display.innerText += e.target.innerText;
+                const buttonText = e.target.innerText;
+                
+                if (buttonText === 'Enter') {
+                    try {
+                        display.innerText = eval(display.innerText);
+                    } catch {
+                        display.innerText = "Error";
+                    }
+                } else if (buttonText === 'Del') {
+                    display.innerText = display.innerText.slice(0, -1);
+                } else if (buttonText === 'Graph') {
+                    plotGraph(display.innerText);
+                } else if (buttonText === 'Mode' || buttonText === '2nd' || buttonText === 'Y=') {
+                    // Add functionalities for these specific keys
+                } else {
+                    display.innerText += buttonText;
                 }
             });
         });
+
+        function plotGraph(equation) {
+            // Use a graphing library like Plotly.js or Chart.js to plot the graph
+            alert("Graphing: " + equation);
+        }
     </script>
 </body>
 </html>
