@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TI-84 Web Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+        }
+        .display {
+            background-color: #222;
+            color: #fff;
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: right;
+            overflow-x: auto;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .button {
+            padding: 20px;
+            font-size: 18px;
+            background-color: #eee;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+        .button.operation {
+            background-color: #f9a825;
+            color: #fff;
+        }
+        .button.operation:hover {
+            background-color: #fbc02d;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display"></div>
+        <div class="buttons">
+            <!-- Row 1 -->
+            <button class="button">7</button>
+            <button class="button">8</button>
+            <button class="button">9</button>
+            <button class="button operation">/</button>
+
+            <!-- Row 2 -->
+            <button class="button">4</button>
+            <button class="button">5</button>
+            <button class="button">6</button>
+            <button class="button operation">*</button>
+
+            <!-- Row 3 -->
+            <button class="button">1</button>
+            <button class="button">2</button>
+            <button class="button">3</button>
+            <button class="button operation">-</button>
+
+            <!-- Row 4 -->
+            <button class="button">0</button>
+            <button class="button">.</button>
+            <button class="button operation">=</button>
+            <button class="button operation">+</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let buttons = Array.from(document.getElementsByClassName('button'));
+
+        buttons.map(button => {
+            button.addEventListener('click', (e) => {
+                switch(e.target.innerText) {
+                    case '=':
+                        try {
+                            display.innerText = eval(display.innerText);
+                        } catch {
+                            display.innerText = "Error";
+                        }
+                        break;
+                    case 'C':
+                        display.innerText = '';
+                        break;
+                    default:
+                        display.innerText += e.target.innerText;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
